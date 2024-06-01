@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi novia?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            background-image: url('https://www.transparenttextures.com/patterns/heart-pattern.png'); /* Patrón de corazones */
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e60073;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn {
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #ff6699;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #e60073;
+        }
+        .btn-no {
+            background-color: #ff4d4d;
+        }
+        .btn-no:hover {
+            background-color: #cc0000;
+        }
+        .message {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #e60073;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e60073;
+            transform: rotate(45deg);
+            animation: float 4s linear infinite;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e60073;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .heart::after {
+            top: 0;
+            left: -10px;
+        }
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question">¿Quieres ser mi novia?</div>
+        <div class="buttons">
+            <button class="btn" id="yesButton">Sí</button>
+            <button class="btn btn-no" id="noButton">No</button>
+        </div>
+        <div class="message" id="message">Sabía que dirías que sí</div>
+        <div class="message" id="noOptionMessage">Esta no es una opción, elige otra</div>
+        <div class="message" id="altMessage">Sabía que dirías que sí, mi amor</div>
+    </div>
+
+    <script>
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const message = document.getElementById('message');
+        const noOptionMessage = document.getElementById('noOptionMessage');
+        const altMessage = document.getElementById('altMessage');
+
+        function showYesMessage() {
+            message.style.display = 'block';
+            noOptionMessage.style.display = 'none';
+            altMessage.style.display = 'none';
+            createHearts();
+        }
+
+        function showAltMessage() {
+            message.style.display = 'none';
+            noOptionMessage.style.display = 'none';
+            altMessage.style.display = 'block';
+            createHearts();
+        }
+
+        yesButton.addEventListener('click', showYesMessage);
+
+        noButton.addEventListener('click', function() {
+            noOptionMessage.style.display = 'block';
+            noButton.textContent = 'Sí';
+            yesButton.textContent = 'Sí';
+            noButton.classList.remove('btn-no');
+            noButton.classList.add('btn');
+            setTimeout(() => {
+                noOptionMessage.style.display = 'none';
+            }, 3000);
+            noButton.removeEventListener('click', arguments.callee);
+            noButton.addEventListener('click', showAltMessage);
+        });
+
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 2 + 3}s`;
+                document.body.appendChild(heart);
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+    </script>
+</body>
+</html>
